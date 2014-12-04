@@ -13,6 +13,7 @@ ENV JDKi586_PATH  jdk1.8.0_25
 ENV ECLIPSE_ARCH  eclipse-java-luna-SR1-linux-gtk.tar.gz
 ENV ECLIPSE_URL  http://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/luna/SR1/$ECLIPSE_ARCH
 
+# Update
 RUN yum clean all; yum -y update
 
 # Install dependencies
@@ -27,8 +28,9 @@ echo -e "[Desktop Entry]\nName=Sublime 3\nExec=sublime3\nTerminal=false\n\
 Icon=/opt/sublime_text_3/Icon/48x48/sublime-text.png\nType=Application\n\
 Categories=TextEditor;IDE;Development\nX-Ayatana-Desktop-Shortcuts=NewWindow\n\n\
 [NewWindow Shortcut Group]\nName=New Window\nExec=sublime -n\nTargetEnvironment=Unity"\
->> /usr/share/applications/sublime3.desktop
-CMD touch /root/.config/sublime-text-3 && \
+>> /usr/share/applications/sublime3.desktop && \
+	mkdir /root/.config && \
+	touch /root/.config/sublime-text-3 && \
 	chown -R root:root /root/.config/sublime-text-3
 
 # JDK x64 1.8.0_25
@@ -52,8 +54,9 @@ $JDKi586_URL && \
 	mkdir -p /usr/java/i586/ && \
 	tar -zxvf $JDKi586_ARCH -C /usr/java/i586/ && \
 	rm -f $JDKi586_ARCH
-ENV JAVAi586_HOME /usr/java/i586/$JDKi586_PATH
-ENV JREi586_HOME /usr/java/i586/$JDKi586_PATH/jre
+ENV JAVAi586_HOME  /usr/java/i586/$JDKi586_PATH
+ENV JREi586_HOME  /usr/java/i586/$JDKi586_PATH/jre
+ENV JAVAi586_EXEC  $JAVAi586_HOME/bin/java
 
 # Eclipse Luna
 RUN	wget $ECLIPSE_URL && \
@@ -61,7 +64,8 @@ RUN	wget $ECLIPSE_URL && \
 	ln -s /usr/eclipse/eclipse /usr/bin/eclipse && \
 	rm -f $ECLIPSE_ARCH
 RUN \
-	sed -i 's/-vmargs/-vm\n\$JAVAi586_HOME\/bin\/java\n-vmargs/g' /usr/eclipse/eclipse.ini && \
+	sed -i s@-vmargs@-vm\\n$JAVAi586_EXEC\\n-vmargs@g /usr/eclipse/eclipse.ini	
+RUN \
 	echo -e "[Desktop Entry]\nEncoding=UTF-8\nName=Eclipse 4.4.1\nComment=Eclipse Luna\n\
 Exec=/usr/bin/eclipse\nIcon=/usr/eclipse/icon.xpm\nCategories=Application;Development;Java;IDE\n\
 Version=1.0\nType=Application\nTerminal=0"\

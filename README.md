@@ -17,7 +17,7 @@ MacOS: /Users/<USERNAME>/Docker/centos6-apps
 Windows: /c/Users/<USERNAME>/Docker/centos6-apps
 
 ```
-# docker build --force-rm -t alex/centos6:apps /Users/Alex/Docker/centos6-apps
+# docker build --force-rm=true -t alex/centos6:apps /Users/Alex/Docker/centos6-apps
 ```
 
 To run with remove container after exit (--rm):
