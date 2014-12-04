@@ -19,6 +19,9 @@ RUN yum clean all; yum -y update
 # Install dependencies
 RUN yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686
 
+# Meld diff tool
+RUN yum -y install meld
+
 # Sublime Text 3
 RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3065_x64.tar.bz2 && \
 	tar -vxjf sublime_text_3_build_3065_x64.tar.bz2 -C /opt && \
