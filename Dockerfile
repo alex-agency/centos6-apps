@@ -79,6 +79,11 @@ RUN	wget http://chrome.richardlloyd.org.uk/install_chrome.sh && \
 	chmod -v u+x install_chrome.sh; ./install_chrome.sh -f && \
 	rm -f install_chrome.sh; rm -rf /root/rpmbuild
 
+# VLC
+RUN cd /etc/yum.repos.d/ && \
+	wget http://pkgrepo.linuxtech.net/el6/release/linuxtech.repo && \
+	yum -y install vlc
+
 # Cleanup
 RUN yum clean all; rm -rf /tmp/* /var/log/*
 
