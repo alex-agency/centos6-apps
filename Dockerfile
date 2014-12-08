@@ -13,14 +13,11 @@ ENV JDKi586_PATH  jdk1.8.0_25
 ENV ECLIPSE_ARCH  eclipse-java-luna-SR1-linux-gtk.tar.gz
 ENV ECLIPSE_URL  http://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/luna/SR1/$ECLIPSE_ARCH
 
-# Update
-RUN yum clean all; yum -y update
-
 # Install dependencies
-RUN yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686
+RUN yum -y update && yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686
 
 # Meld diff tool
-RUN yum -y install meld
+RUN yum -y update && yum -y install meld
 
 # Sublime Text 3
 RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3065_x64.tar.bz2 && \
@@ -75,14 +72,15 @@ Version=1.0\nType=Application\nTerminal=0"\
 >> /usr/share/applications/eclipse-4.4.desktop
 
 # Chrome
-RUN	wget http://chrome.richardlloyd.org.uk/install_chrome.sh && \
-	chmod -v u+x install_chrome.sh; ./install_chrome.sh -f && \
-	rm -f install_chrome.sh; rm -rf /root/rpmbuild
+#RUN	wget http://chrome.richardlloyd.org.uk/install_chrome.sh && \
+#	chmod -v u+x install_chrome.sh; ./install_chrome.sh -f && \
+#	rm -f install_chrome.sh; rm -rf /root/rpmbuild
 
-# VLC
-RUN cd /etc/yum.repos.d/ && \
-	wget http://pkgrepo.linuxtech.net/el6/release/linuxtech.repo && \
-	yum -y install vlc
+# Set environment variables
+RUN echo -e "#!/bin/sh\n\
+export JAVAi586_HOME=$JAVAi586_HOME"\ 
+> /etc/profile.d/env.sh && \
+	chmod -v u+x /etc/profile.d/env.sh
 
 # Cleanup
 RUN yum clean all; rm -rf /tmp/* /var/log/*
