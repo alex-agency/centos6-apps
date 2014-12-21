@@ -24,10 +24,20 @@ RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3065_x64.tar.bz
 	tar -vxjf sublime_text_3_build_3065_x64.tar.bz2 -C /opt && \
 	ln -s /opt/sublime_text_3/sublime_text /usr/bin/sublime3 && \
 	rm -f sublime_text_3_build_3065_x64.tar.bz2 && \
-echo -e "[Desktop Entry]\nName=Sublime 3\nExec=sublime3\nTerminal=false\n\
-Icon=/opt/sublime_text_3/Icon/48x48/sublime-text.png\nType=Application\n\
-Categories=TextEditor;IDE;Development\nX-Ayatana-Desktop-Shortcuts=NewWindow\n\n\
-[NewWindow Shortcut Group]\nName=New Window\nExec=sublime -n\nTargetEnvironment=Unity"\
+echo -e "\
+[Desktop Entry]\n\
+Name=Sublime 3\n\
+Exec=sublime3\n\
+Terminal=false\n\
+Icon=/opt/sublime_text_3/Icon/48x48/sublime-text.png\n\
+Type=Application\n\
+Categories=TextEditor;IDE;Development\n\
+X-Ayatana-Desktop-Shortcuts=NewWindow\n\
+
+[NewWindow Shortcut Group]\n\
+Name=New Window\n\
+Exec=sublime -n\n\
+TargetEnvironment=Unity"\
 >> /usr/share/applications/sublime3.desktop && \
 	mkdir /root/.config && \
 	touch /root/.config/sublime-text-3 && \
@@ -66,15 +76,18 @@ RUN	wget $ECLIPSE_URL && \
 RUN \
 	sed -i s@-vmargs@-vm\\n$JAVAi586_EXEC\\n-vmargs@g /usr/eclipse/eclipse.ini	
 RUN \
-	echo -e "[Desktop Entry]\nEncoding=UTF-8\nName=Eclipse 4.4.1\nComment=Eclipse Luna\n\
-Exec=/usr/bin/eclipse\nIcon=/usr/eclipse/icon.xpm\nCategories=Application;Development;Java;IDE\n\
-Version=1.0\nType=Application\nTerminal=0"\
+	echo -e "\
+[Desktop Entry]\n\
+Encoding=UTF-8\n\
+Name=Eclipse 4.4.1\n\
+Comment=Eclipse Luna\n\
+Exec=/usr/bin/eclipse\n\
+Icon=/usr/eclipse/icon.xpm\n\
+Categories=Application;Development;Java;IDE\n\
+Version=1.0\n\
+Type=Application\n\
+Terminal=0"\
 >> /usr/share/applications/eclipse-4.4.desktop
-
-# Chrome
-#RUN	wget http://chrome.richardlloyd.org.uk/install_chrome.sh && \
-#	chmod -v u+x install_chrome.sh; ./install_chrome.sh -f && \
-#	rm -f install_chrome.sh; rm -rf /root/rpmbuild
 
 # Set environment variables
 RUN echo -e "#!/bin/sh\n\
@@ -83,5 +96,4 @@ export JAVAi586_HOME=$JAVAi586_HOME"\
 	chmod -v u+x /etc/profile.d/env.sh
 
 # Cleanup
-RUN yum clean all; rm -rf /tmp/* /var/log/*
-
+RUN yum clean all; rm -rf /tmp/*
