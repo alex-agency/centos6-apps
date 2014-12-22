@@ -65,8 +65,6 @@ $JDKi586_URL && \
 	tar -zxvf $JDKi586_ARCH -C /usr/java/i586/ && \
 	rm -f $JDKi586_ARCH
 ENV JAVAi586_HOME  /usr/java/i586/$JDKi586_PATH
-ENV JREi586_HOME  /usr/java/i586/$JDKi586_PATH/jre
-ENV JAVAi586_EXEC  $JAVAi586_HOME/bin/java
 
 # Eclipse Luna
 RUN	wget $ECLIPSE_URL && \
@@ -74,7 +72,7 @@ RUN	wget $ECLIPSE_URL && \
 	ln -s /usr/eclipse/eclipse /usr/bin/eclipse && \
 	rm -f $ECLIPSE_ARCH
 RUN \
-	sed -i s@-vmargs@-vm\\n$JAVAi586_EXEC\\n-vmargs@g /usr/eclipse/eclipse.ini	
+	sed -i s@-vmargs@-vm\\n$JAVAi586_HOME/jre/bin/java\\n-vmargs@g /usr/eclipse/eclipse.ini	
 RUN \
 	echo -e "\
 [Desktop Entry]\n\
