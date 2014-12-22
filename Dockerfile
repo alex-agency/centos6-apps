@@ -4,12 +4,14 @@ MAINTAINER Alex
 # Variables
 ENV JDKx64_ARCH  jdk-8u25-linux-x64.rpm
 ENV JDKx64_URL  http://download.oracle.com/otn-pub/java/jdk/8u25-b17/$JDKx64_ARCH
+ENV JDKx64_PATH  jdk1.8.0_25
 
 ENV JDKx86_ARCH  jdk-8u25-linux-i586.tar.gz
 ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u25-b17/$JDKx86_ARCH
+ENV JDKx86_PATH  jdk1.8.0_25
 
 ENV ECLIPSE_ARCH  eclipse-java-luna-SR1-linux-gtk.tar.gz
-ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse//technology/epp/downloads/release/luna/SR1/$ECLIPSE_ARCH
+ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR1/$ECLIPSE_ARCH
 
 ENV FIREFOX_ARCH  firefox-34.0.5.tar.bz2 
 ENV FIREFOX_URL  https://download-installer.cdn.mozilla.net/pub/firefox/releases/34.0.5/linux-i686/en-US/$FIREFOX_ARCH
@@ -46,15 +48,16 @@ TargetEnvironment=Unity"\
 
 # JDK x64
 RUN wget -c --no-cookies  --no-check-certificate  --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-$JDKx64_URL  -O /tmp/$JDKx64_ARCH  && \
-	rpm -i /tmp/$JDKx64_ARCH && rm -fv /tmp/$JDKx64_ARCH && \
-	echo "export JAVA_HOME=/usr/java/jdk" >> /etc/bashrc && \
+$JDKx64_URL -O $JDKx64_ARCH && \
+    rpm -i $JDKx64_ARCH && \
+	rm -fv $JDKx64_ARCH && \
+	echo "export JAVA_HOME=/usr/java/$JDKx64_PATH" >> /etc/bashrc && \
 	echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/bashrc && \
-	alternatives   --install /usr/bin/java java /usr/java/jdk/bin/java 1 && \
-	alternatives   --set  java  /usr/java/jdk/bin/java && \
+	alternatives --install /usr/bin/java java /usr/java/$JDKx64_PATH/bin/java 1 && \
+	alternatives --set java /usr/java/$JDKx64_PATH/bin/java && \
 	java -version
-ENV JAVA_HOME /usr/java/jdk
-ENV JRE_HOME /usr/java/jdk/jre
+ENV JAVA_HOME /usr/java/$JDKx64_PATH
+ENV JRE_HOME /usr/java/$JDKx64_PATH/jre
 # Firefox 64 bit Java plugin
 RUN alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 \
 	/usr/java/latest/jre/lib/amd64/libnpjp2.so 200000
@@ -81,7 +84,7 @@ $JDKx86_URL && \
 	mkdir -p /usr/java/x86/ && \
 	tar -zxvf $JDKx86_ARCH -C /usr/java/x86/ && \
 	rm -f $JDKx86_ARCH
-ENV JAVA_HOME_x86  /usr/java/x86/jdk
+ENV JAVA_HOME_x86  /usr/java/x86/$JDKx86_PATH
 # Firefox 32 bit Java plugin
 RUN alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so \
 	$JAVA_HOME_x86/jre/lib/i386/libnpjp2.so 200000
