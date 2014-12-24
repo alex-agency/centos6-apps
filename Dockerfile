@@ -1,4 +1,4 @@
-FROM alex/centos6:desktop
+FROM alexagency/centos6-desktop
 MAINTAINER Alex
 
 # Variables
