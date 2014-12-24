@@ -1,6 +1,6 @@
 
 apps:
-    image: alex/centos6:apps
+    image: alexagency/centos6-apps
     ports:
         - "5900:5900"
         - "5901:5901"
