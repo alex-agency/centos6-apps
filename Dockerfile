@@ -4,17 +4,17 @@ MAINTAINER Alex
 # Variables
 ENV JDKx64_ARCH  jdk-8u25-linux-x64.rpm
 ENV JDKx64_URL  http://download.oracle.com/otn-pub/java/jdk/8u25-b17/$JDKx64_ARCH
-ENV JDKx64_PATH  jdk1.8.0_25
+ENV JDKx64_PATH  jdk1.8.0_31
 
 ENV JDKx86_ARCH  jdk-8u25-linux-i586.tar.gz
 ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u25-b17/$JDKx86_ARCH
-ENV JDKx86_PATH  jdk1.8.0_25
+ENV JDKx86_PATH  jdk1.8.0_31
 
-ENV ECLIPSE_ARCH  eclipse-java-luna-SR1-linux-gtk.tar.gz
-ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR1/$ECLIPSE_ARCH
+ENV ECLIPSE_ARCH  eclipse-java-luna-SR1a-linux-gtk.tar.gz
+ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR1a/$ECLIPSE_ARCH
 
-ENV FIREFOX_ARCH  firefox-34.0.5.tar.bz2 
-ENV FIREFOX_URL  https://download-installer.cdn.mozilla.net/pub/firefox/releases/34.0.5/linux-i686/en-US/$FIREFOX_ARCH
+ENV FIREFOX_ARCH  firefox-35.0.tar.bz2
+ENV FIREFOX_URL  http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/35.0/linux-i686/en-US/$FIREFOX_ARCH
 
 # Install dependencies
 RUN yum -y update && yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686 alsa-lib-1.*.i686 \
