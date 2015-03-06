@@ -2,13 +2,13 @@ FROM alexagency/centos6-desktop
 MAINTAINER Alex
 
 # Variables
-ENV JDKx64_ARCH  jdk-8u31-linux-x64.rpm
-ENV JDKx64_URL  http://download.oracle.com/otn-pub/java/jdk/8u31-b13/$JDKx64_ARCH
-ENV JDKx64_PATH  jdk1.8.0_31
+ENV JDKx64_ARCH  jdk-8u40-linux-x64.rpm
+ENV JDKx64_URL  http://download.oracle.com/otn-pub/java/jdk/8u40-b25/$JDKx64_ARCH
+ENV JDKx64_PATH  jdk1.8.0_40
 
-ENV JDKx86_ARCH  jdk-8u31-linux-i586.tar.gz
-ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u31-b13/$JDKx86_ARCH
-ENV JDKx86_PATH  jdk1.8.0_31
+ENV JDKx86_ARCH  jdk-8u40-linux-i586.tar.gz
+ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u40-b25/$JDKx86_ARCH
+ENV JDKx86_PATH  jdk1.8.0_40
 
 ENV ECLIPSE_ARCH  eclipse-java-luna-SR1a-linux-gtk.tar.gz
 ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR1a/$ECLIPSE_ARCH
