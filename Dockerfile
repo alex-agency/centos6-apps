@@ -25,9 +25,9 @@ RUN yum -y update && yum -y install meld
 
 # Sublime Text 3
 RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2 && \
-	tar -vxjf sublime_text_3_build_3065_x64.tar.bz2 -C /usr && \
+	tar -vxjf sublime_text_3_build_3083_x64.tar.bz2 -C /usr && \
 	ln -s /usr/sublime_text_3/sublime_text /usr/bin/sublime3 && \
-	rm -f sublime_text_3_build_3065_x64.tar.bz2 && \
+	rm -f sublime_text_3_build_3083_x64.tar.bz2 && \
 echo -e "\
 [Desktop Entry]\n\
 Name=Sublime 3\n\
