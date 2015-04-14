@@ -10,21 +10,21 @@ ENV JDKx86_ARCH  jdk-8u40-linux-i586.tar.gz
 ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u40-b25/$JDKx86_ARCH
 ENV JDKx86_PATH  jdk1.8.0_40
 
-ENV ECLIPSE_ARCH  eclipse-java-luna-SR1a-linux-gtk.tar.gz
-ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR1a/$ECLIPSE_ARCH
+ENV ECLIPSE_ARCH  eclipse-java-luna-SR2-linux-gtk.tar.gz
+ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR2/$ECLIPSE_ARCH
 
-ENV FIREFOX_ARCH  firefox-35.0.tar.bz2
-ENV FIREFOX_URL  http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/35.0/linux-i686/en-US/$FIREFOX_ARCH
+ENV FIREFOX_ARCH  firefox-37.0.1.tar.bz2
+ENV FIREFOX_URL  http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/37.0.1/linux-i686/en-US/$FIREFOX_ARCH
 
 # Install dependencies
-RUN yum -y update && yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686 alsa-lib-1.*.i686 \
+RUN yum -y update && yum -y upgrade && yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686 alsa-lib-1.*.i686 \
 dbus-glib-0.*.i686 libXt-1.*.i686 gtk2-engines gtk2-devel
 
 # Meld diff tool
 RUN yum -y update && yum -y install meld
 
 # Sublime Text 3
-RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3065_x64.tar.bz2 && \
+RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2 && \
 	tar -vxjf sublime_text_3_build_3065_x64.tar.bz2 -C /usr && \
 	ln -s /usr/sublime_text_3/sublime_text /usr/bin/sublime3 && \
 	rm -f sublime_text_3_build_3065_x64.tar.bz2 && \
@@ -44,7 +44,8 @@ TargetEnvironment=Unity"\
 >> /usr/share/applications/sublime3.desktop && \
 	mkdir /root/.config && \
 	touch /root/.config/sublime-text-3 && \
-	chown -R root:root /root/.config/sublime-text-3
+	chown -R root:root /root/.config/sublime-text-3 && \
+	sed -i 's@gedit.desktop@gedit.desktop;sublime3.desktop@g' /usr/share/applications/defaults.list
 
 # JDK x64
 RUN wget -c --no-cookies  --no-check-certificate  --header "Cookie: oraclelicense=accept-securebackup-cookie" \
@@ -88,6 +89,19 @@ ENV JAVA_HOME_x86  /usr/java/x86/$JDKx86_PATH
 # Firefox 32 bit Java plugin
 RUN alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so \
 	$JAVA_HOME_x86/jre/lib/i386/libnpjp2.so 200000
+# Visual VM x86
+RUN echo -e "\
+[Desktop Entry]\n\
+Encoding=UTF-8\n\
+Name=Visual VM\n\
+Comment=Visual VM\n\
+Exec=$JAVA_HOME_x86/bin/jvisualvm\n\
+Icon=gnome-panel-fish\n\
+Categories=Application;Development;Java\n\
+Version=1.0\n\
+Type=Application\n\
+Terminal=0"\
+>> /usr/share/applications/jvisualvm.desktop
 
 # Eclipse Luna
 RUN wget $ECLIPSE_URL && \
