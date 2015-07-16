@@ -2,26 +2,26 @@ FROM alexagency/centos6-desktop
 MAINTAINER Alex
 
 # Variables
-ENV JDKx64_ARCH  jdk-8u45-linux-x64.rpm
-ENV JDKx64_URL   http://download.oracle.com/otn-pub/java/jdk/8u45-b14/$JDKx64_ARCH
-ENV JDKx64_PATH  jdk1.8.0_45
+ENV JDKx64_ARCH  jdk-8u51-linux-i586.rpm
+ENV JDKx64_URL   http://download.oracle.com/otn-pub/java/jdk/8u51-b16/$JDKx64_ARCH
+ENV JDKx64_DIR   jdk1.8.0_51
 
-ENV JDKx86_ARCH  jdk-8u45-linux-i586.tar.gz
-ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u45-b14/$JDKx86_ARCH
-ENV JDKx86_PATH  jdk1.8.0_45
+ENV JDKx86_ARCH  jdk-8u51-linux-i586.tar.gz
+ENV JDKx86_URL   http://download.oracle.com/otn-pub/java/jdk/8u51-b16/$JDKx86_ARCH	
+ENV JDKx86_DIR   jdk1.8.0_51
 
-ENV ECLIPSE_ARCH  eclipse-java-luna-SR2-linux-gtk.tar.gz
-ENV ECLIPSE_URL  http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/luna/SR2/$ECLIPSE_ARCH
+ENV ECLIPSE_ARCH eclipse-jee-mars-R-linux-gtk.tar.gz
+ENV ECLIPSE_URL  http://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/mars/R/$ECLIPSE_ARCH
 
-ENV FIREFOX_ARCH  firefox-37.0.1.tar.bz2
-ENV FIREFOX_URL  http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/37.0.1/linux-i686/en-US/$FIREFOX_ARCH
+ENV FIREFOX_ARCH firefox-39.0.tar.bz2
+ENV FIREFOX_URL  https://download-installer.cdn.mozilla.net/pub/firefox/releases/39.0/linux-i686/en-US/$FIREFOX_ARCH
 
 # Install dependencies
-RUN yum -y update && yum -y upgrade && yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686 alsa-lib-1.*.i686 \
-dbus-glib-0.*.i686 libXt-1.*.i686 gtk2-engines gtk2-devel
-
-# Meld diff tool
-RUN yum -y update && yum -y install meld
+RUN yum -y update && yum -y upgrade && \
+	yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686 alsa-lib-1.*.i686 \
+					dbus-glib-0.*.i686 libXt-1.*.i686 gtk2-engines gtk2-devel && \
+	yum -y install meld && \ # Meld diff tool			
+	yum clean all && rm -rf /tmp/*
 
 # Sublime Text 3
 RUN	wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2 && \
@@ -52,13 +52,13 @@ RUN wget -c --no-cookies  --no-check-certificate  --header "Cookie: oraclelicens
 $JDKx64_URL -O $JDKx64_ARCH && \
     rpm -i $JDKx64_ARCH && \
 	rm -fv $JDKx64_ARCH && \
-	echo "export JAVA_HOME=/usr/java/$JDKx64_PATH" >> /etc/bashrc && \
+	echo "export JAVA_HOME=/usr/java/$JDKx64_DIR" >> /etc/bashrc && \
 	echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/bashrc && \
-	alternatives --install /usr/bin/java java /usr/java/$JDKx64_PATH/bin/java 1 && \
-	alternatives --set java /usr/java/$JDKx64_PATH/bin/java && \
+	alternatives --install /usr/bin/java java /usr/java/$JDKx64_DIR/bin/java 1 && \
+	alternatives --set java /usr/java/$JDKx64_DIR/bin/java && \
 	java -version
-ENV JAVA_HOME /usr/java/$JDKx64_PATH
-ENV JRE_HOME /usr/java/$JDKx64_PATH/jre
+ENV JAVA_HOME /usr/java/$JDKx64_DIR
+ENV JRE_HOME /usr/java/$JDKx64_DIR/jre
 # Firefox 64 bit Java plugin
 RUN alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 \
 	/usr/java/latest/jre/lib/amd64/libnpjp2.so 200000
@@ -85,7 +85,7 @@ $JDKx86_URL && \
 	mkdir -p /usr/java/x86/ && \
 	tar -zxvf $JDKx86_ARCH -C /usr/java/x86/ && \
 	rm -f $JDKx86_ARCH
-ENV JAVA_HOME_x86  /usr/java/x86/$JDKx86_PATH
+ENV JAVA_HOME_x86  /usr/java/x86/$JDKx86_DIR
 # Firefox 32 bit Java plugin
 RUN alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so \
 	$JAVA_HOME_x86/jre/lib/i386/libnpjp2.so 200000
@@ -127,6 +127,3 @@ RUN echo -e "#!/bin/sh\n\
 export JAVA_HOME_x86=$JAVA_HOME_x86"\ 
 >> /etc/profile.d/env.sh && \
 	chmod -v u+x /etc/profile.d/env.sh
-
-# Cleanup
-RUN yum clean all && rm -rf /tmp/*

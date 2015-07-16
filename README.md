@@ -3,37 +3,47 @@ alex-centos6-apps
 
 Docker Centos 6 Desktop applications
 
-
-Build image dependencies:
+Create dev workstation
 
 ```
-# alexagency/centos6-desktop
+docker-machine create -d virtualbox dev
 ```
 
-To build image using boot2docker:
+Get IP address
+
+```
+# docker-machine ip dev
+```
+
+Connect Docker
+
+```
+# eval "$(docker-machine env dev)"
+```
 
 Copy the sources to following path:
 MacOS: /Users/<USERNAME>/Docker/centos6-apps 
 Windows: /c/Users/<USERNAME>/Docker/centos6-apps
 
+Build image
+
 ```
-# docker build --force-rm=true -t alexagency/centos6-apps /Users/Alex/Docker/centos6-apps
+# docker-machine ssh dev
+# cd /Users/<USERNAME>/Docker/centos6-apps
+# cd /c/Users/<USERNAME>/docker/centos6-apps
+# docker build --force-rm=true -t alexagency/centos6-apps .
 ```
 
-To run container in the background:
+Run container in the background
 
 ```
 # docker run -d -p 5900:5900 -p 5901:5901 -p 3389:3389 alexagency/centos6-apps
-or
-# fig up -d
 ```
 
-To run interactive with remove container after exit (--rm):
+Run container interactive with remove container after exit (--rm)
 
 ```
 # docker run -it --rm -p 5900:5900 -p 5901:5901 -p 3389:3389 alexagency/centos6-apps
-or
-# fig up
 ```
 
 VNC & RDP:
