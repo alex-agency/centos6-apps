@@ -20,7 +20,7 @@ ENV FIREFOX_URL  https://download-installer.cdn.mozilla.net/pub/firefox/releases
 RUN yum -y update && yum -y upgrade && \
 	yum -y install glibc.i686 libgcc.i686 gtk2*.i686 libXtst*.i686 alsa-lib-1.*.i686 \
 					dbus-glib-0.*.i686 libXt-1.*.i686 gtk2-engines gtk2-devel && \
-	yum -y install meld && \ # Meld diff tool			
+	yum -y install meld && \			
 	yum clean all && rm -rf /tmp/*
 
 # Sublime Text 3
