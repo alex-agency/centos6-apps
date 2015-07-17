@@ -2,7 +2,7 @@ FROM alexagency/centos6-desktop
 MAINTAINER Alex
 
 # Variables
-ENV JDKx64_ARCH  jdk-8u51-linux-i586.rpm
+ENV JDKx64_ARCH  jdk-8u51-linux-x64.rpm
 ENV JDKx64_URL   http://download.oracle.com/otn-pub/java/jdk/8u51-b16/$JDKx64_ARCH
 ENV JDKx64_DIR   jdk1.8.0_51
 
