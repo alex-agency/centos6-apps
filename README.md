@@ -3,6 +3,8 @@ alex-centos6-apps
 
 Docker Centos 6 Desktop applications
 
+![apps](https://cloud.githubusercontent.com/assets/1122708/10214796/1b0b53cc-6824-11e5-841d-b9eba57731b8.jpg)
+
 Create dev workstation
 
 ```
